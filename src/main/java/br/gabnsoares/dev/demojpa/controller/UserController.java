@@ -35,4 +35,14 @@ public class UserController {
 
         return ResponseEntity.ok(users);
     }
+
+    @GetMapping(path ="/{userId}")
+    public ResponseEntity<UserEntity> findById(@PathVariable("userId") Long userId)  {
+
+        var user = userService.findById(userId);
+
+        return user.isPresent() ?
+                ResponseEntity.ok(user.get()) :
+                ResponseEntity.notFound().build();
+    }
 }
