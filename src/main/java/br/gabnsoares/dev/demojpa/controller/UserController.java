@@ -1,6 +1,7 @@
 package br.gabnsoares.dev.demojpa.controller;
 
 import br.gabnsoares.dev.demojpa.controller.dto.CreateUserDto;
+import br.gabnsoares.dev.demojpa.controller.dto.UpdateUserDto;
 import br.gabnsoares.dev.demojpa.entity.UserEntity;
 import br.gabnsoares.dev.demojpa.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,16 @@ public class UserController {
 
         return user.isPresent() ?
                 ResponseEntity.ok(user.get()) :
+                ResponseEntity.notFound().build();
+    }
+
+    @PutMapping(path = "/{userId}")
+    public ResponseEntity<Void> updateUser(@PathVariable("userId") Long userId,
+                                           @RequestBody UpdateUserDto dto) {
+        var user = userService.updateById(userId, dto);
+
+        return user.isPresent() ?
+                ResponseEntity.noContent().build() :
                 ResponseEntity.notFound().build();
     }
 }
