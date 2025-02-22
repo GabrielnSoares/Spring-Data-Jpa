@@ -1,14 +1,13 @@
 package br.gabnsoares.dev.demojpa.controller;
 
 import br.gabnsoares.dev.demojpa.controller.dto.CreateUserDto;
+import br.gabnsoares.dev.demojpa.entity.UserEntity;
 import br.gabnsoares.dev.demojpa.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -27,5 +26,13 @@ public class UserController {
 
         return ResponseEntity.created(URI.create("/user/" + user.getUserId())).build();
 
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserEntity>> listAll() {
+
+        var users = userService.findAll();
+
+        return ResponseEntity.ok(users);
     }
 }

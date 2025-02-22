@@ -6,6 +6,7 @@ import br.gabnsoares.dev.demojpa.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -23,5 +24,9 @@ public class UserService {
         entity.setAge(dto.age());
         entity.setCreatedAt(LocalDateTime.now());
         return userRepository.save(entity);
+    }
+
+    public List<UserEntity> findAll() {
+        return userRepository.findAll();
     }
 }
