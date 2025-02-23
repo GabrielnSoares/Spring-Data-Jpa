@@ -1,9 +1,12 @@
 package br.gabnsoares.dev.demojpa.controller;
 
+import br.gabnsoares.dev.demojpa.controller.dto.ApiResponse;
 import br.gabnsoares.dev.demojpa.controller.dto.CreateUserDto;
+import br.gabnsoares.dev.demojpa.controller.dto.PaginationResponse;
 import br.gabnsoares.dev.demojpa.controller.dto.UpdateUserDto;
 import br.gabnsoares.dev.demojpa.entity.UserEntity;
 import br.gabnsoares.dev.demojpa.service.UserService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,11 +33,15 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserEntity>> listAll() {
+    public ResponseEntity<ApiResponse<UserEntity>> listAll(@RequestParam(name = "page", defaultValue = "0") Integer page,
+                                                    @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
 
-        var users = userService.findAll();
+        var pageResponse = userService.findAll(page, pageSize);
 
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(new ApiResponse<>(
+                pageResponse.getContent(),
+                new PaginationResponse(pageResponse.getNumber(), pageResponse.getSize(), pageResponse.getTotalElements(), pageResponse.getTotalPages())
+                ));
     }
 
     @GetMapping(path ="/{userId}")

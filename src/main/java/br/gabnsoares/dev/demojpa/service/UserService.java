@@ -4,8 +4,9 @@ import br.gabnsoares.dev.demojpa.controller.dto.CreateUserDto;
 import br.gabnsoares.dev.demojpa.controller.dto.UpdateUserDto;
 import br.gabnsoares.dev.demojpa.entity.UserEntity;
 import br.gabnsoares.dev.demojpa.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,8 +33,11 @@ public class UserService {
         return userRepository.save(entity);
     }
 
-    public List<UserEntity> findAll() {
-        return userRepository.findAll();
+    public Page<UserEntity> findAll(Integer page, Integer pageSize) {
+
+        var pageRequest = PageRequest.of(page, pageSize);
+
+        return userRepository.findAll(pageRequest);
     }
 
     public Optional<UserEntity> findById(Long userId) {
