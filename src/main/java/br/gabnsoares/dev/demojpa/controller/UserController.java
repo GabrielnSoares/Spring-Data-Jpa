@@ -6,12 +6,10 @@ import br.gabnsoares.dev.demojpa.controller.dto.PaginationResponse;
 import br.gabnsoares.dev.demojpa.controller.dto.UpdateUserDto;
 import br.gabnsoares.dev.demojpa.entity.UserEntity;
 import br.gabnsoares.dev.demojpa.service.UserService;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -34,9 +32,10 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<UserEntity>> listAll(@RequestParam(name = "page", defaultValue = "0") Integer page,
-                                                    @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
+                                                    @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+                                                           @RequestParam(name = "orderBy", defaultValue = "desc") String orderBy) {
 
-        var pageResponse = userService.findAll(page, pageSize);
+        var pageResponse = userService.findAll(page, pageSize, orderBy);
 
         return ResponseEntity.ok(new ApiResponse<>(
                 pageResponse.getContent(),

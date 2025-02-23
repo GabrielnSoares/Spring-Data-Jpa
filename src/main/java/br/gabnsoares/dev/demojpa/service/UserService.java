@@ -6,10 +6,10 @@ import br.gabnsoares.dev.demojpa.entity.UserEntity;
 import br.gabnsoares.dev.demojpa.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import static java.util.Objects.isNull;
@@ -33,9 +33,14 @@ public class UserService {
         return userRepository.save(entity);
     }
 
-    public Page<UserEntity> findAll(Integer page, Integer pageSize) {
+    public Page<UserEntity> findAll(Integer page, Integer pageSize, String orderBy) {
 
-        var pageRequest = PageRequest.of(page, pageSize);
+        var direction = Sort.Direction.DESC;
+        if (orderBy.equalsIgnoreCase("asc")) {
+            direction = Sort.Direction.ASC;
+        }
+
+        var pageRequest = PageRequest.of(page, pageSize, direction, "createdAt");
 
         return userRepository.findAll(pageRequest);
     }
