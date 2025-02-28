@@ -62,7 +62,7 @@ public class UserService {
             direction = Sort.Direction.ASC;
         }
 
-        var pageRequest = PageRequest.of(page, pageSize, direction, "createdAt");
+        var pageRequest = PageRequest.of(page, pageSize, direction, "created_at");
         return pageRequest;
     }
 
